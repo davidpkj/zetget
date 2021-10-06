@@ -40,3 +40,17 @@ void showImage(cv::Mat image, std::vector<std::vector<cv::Point>> contours)
     cv::waitKey(0);
     cv::waitKey(0);
 }
+
+void convertImageToPDF(cv::Mat source, char *destination) {
+    cv::Size size = source.size();
+    Magick::Image image(size.width, size.height, "RGB", Magick::CharPixel, source.data);
+
+    Magick::Blob blob;
+    image.write(&blob, std::string("pdf"));
+
+    // std::cout.write(static_cast<const char*>(blob.data()), blob.length());
+    std::FILE *outfile = std::fopen(destination, "w");
+
+    fwrite(blob.data(), blob.length(), 1, outfile);
+    fclose(outfile);
+}

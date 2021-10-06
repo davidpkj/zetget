@@ -1,12 +1,14 @@
-#include <stdio.h>
-#include <iostream>
-
-#include <opencv2/opencv.hpp>
-
-#include "manipulation.hpp"
+#include "main.hpp"
 
 int main(int argc, char **argv)
 {
+    return scan(argc, argv);
+}
+
+int scan(int argc, char **argv) 
+{
+    Magick::InitializeMagick(*argv);
+
     if (argc != 3)
     {
         printf("[ Error ] Failed to get files.\nUsage: zetget [source image] [destination image]\n");
@@ -29,7 +31,8 @@ int main(int argc, char **argv)
     image = getCorrectedDocument(vector[0], contour);
 
     // Save the magic
-    cv::imwrite(argv[2], image);
+    // cv::imwrite(argv[2], image);
+    convertImageToPDF(image, argv[2]);
 
     return 0;
 }

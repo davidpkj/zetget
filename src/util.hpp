@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include <opencv2/opencv.hpp>
+#include <Magick++.h>
 
 /*
     Sorts the given points of a rectangle counterclockwise.
@@ -35,5 +36,12 @@ double getEuclideanDistance(cv::Point p1, cv::Point p2);
     @param contours The contours to draw
 */
 void showImage(cv::Mat image, std::vector<std::vector<cv::Point>> contours = {});
+
+/*
+    Converts an image into a PDF
+    @param source The image
+    @param destination The path to the destination of the PDF
+*/
+void convertImageToPDF(cv::Mat source, char *destination);
 
 #endif
