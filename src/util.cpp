@@ -4,22 +4,24 @@ std::vector<cv::Point> sortRectangleVerticesCounterclockwise(std::vector<cv::Poi
 {
     // Sort all elements by X coordinate, ascending
     std::sort(points.begin(), points.end(), [](cv::Point p1, cv::Point p2) { return (p1.x < p2.x); });
-    // Sort first two elements by Y coordinate, descending
-    std::sort(points.begin(), points.begin() + 1, [](cv::Point p1, cv::Point p2) { return (p1.y > p2.y); });
+    // Sort first two elements by Y coordinate, ascending
+    std::sort(points.begin(), points.begin() + 2, [](cv::Point p1, cv::Point p2) { return (p1.y < p2.y); });
     // Sort last two elements by Y coordinate, descending
-    std::sort(points.end() - 2, points.end(), [](cv::Point p1, cv::Point p2) { return (p1.y > p2.y); });
+    std::sort(points.begin() + 2, points.end(), [](cv::Point p1, cv::Point p2) { return (p1.y > p2.y); });
 
     return points;
 }
 
+// TODO: This only generates PDF in vertical format. For horizontals the longer side has to be devided.
 cv::Size getTargetSize(std::vector<cv::Point2f> contour)
 {
     // Get maximally possible height
-    double height = std::max({getEuclideanDistance(contour[0], contour[1]), getEuclideanDistance(contour[2], contour[3])});
+    // double height = std::max({getEuclideanDistance(contour[0], contour[1]), getEuclideanDistance(contour[2], contour[3])});
     // Get maximally possible width
     double width = std::max({getEuclideanDistance(contour[1], contour[2]), getEuclideanDistance(contour[3], contour[4])});
 
-    return cv::Size(width, height);
+    // Multiply maximal width with the standard DIN aspect ratio
+    return cv::Size(width, width * 1.414);
 }
 
 double getEuclideanDistance(cv::Point p1, cv::Point p2)

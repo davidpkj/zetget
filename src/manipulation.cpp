@@ -32,6 +32,7 @@ std::vector<cv::Mat> getPreprocessedImages(cv::Mat image)
     cv::Mat output;
 
     // Trial and error showed these are the best settings for this purpose
+    cv::cvtColor(image.clone(), image, cv::COLOR_RGB2BGR);
     cv::cvtColor(resize(image), output, cv::COLOR_RGB2GRAY);
     cv::bilateralFilter(output.clone(), output, 9, 75, 75);
     cv::adaptiveThreshold(output, output, 255, cv::ADAPTIVE_THRESH_GAUSSIAN_C, cv::THRESH_BINARY, 115, 4);
